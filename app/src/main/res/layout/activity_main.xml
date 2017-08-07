@@ -6,13 +6,10 @@
     android:layout_height="match_parent"
     tools:context="com.android.popularmovies_s1.MainActivity">
 
-    <GridView
-        android:id="@+id/gv_main_movies"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main_movies"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="2">
-
-    </GridView>
+        android:layout_height="match_parent"/>
 
 
     <TextView
@@ -25,10 +22,10 @@
         android:visibility="invisible"/>
 
     <ProgressBar
-        android:layout_gravity="center"
         android:id="@+id/pb_main_loading"
         android:layout_width="42dp"
         android:layout_height="42dp"
+        android:layout_gravity="center"
         android:visibility="invisible"/>
 
 

@@ -1,6 +1,7 @@
 package com.android.popularmovies_s1.utils;
 
 import android.net.Uri;
+import android.support.annotation.StringDef;
 
 import com.android.popularmovies_s1.PopularMoviesApplication;
 import com.android.popularmovies_s1.R;
@@ -14,16 +15,32 @@ import java.util.Scanner;
 
 /**
  * @author Philipp Zoechner
- * @date 07/08/2017
+ * @date 07.08.2017
  */
 public class NetworkUtils {
 
-    // TODO note in README to replace this
     private static String API_KEY = PopularMoviesApplication.getAppContext().getString(R.string.MOVIEDB_API_KEY);
     private final static String BASE_URL = "https://api.themoviedb.org/3/movie/";
     public final static String POPULAR = "popular";
     public final static String TOP_RATED = "top_rated";
     private final static String PARAM_API_KEY = "api_key";
+
+
+    public final static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";
+
+    @StringDef({
+            w92, w154, w185, w342, w500, w780, original
+    })
+    public @interface IMG_SIZES {
+    }
+
+    public static final String w92 = "w92";
+    public static final String w154 = "w154";
+    public static final String w185 = "w185";
+    public static final String w342 = "w342";
+    public static final String w500 = "w500";
+    public static final String w780 = "w780";
+    public static final String original = "original";
 
 
     public static URL buildUrl(String type) {
@@ -41,6 +58,10 @@ public class NetworkUtils {
         }
 
         return url;
+    }
+
+    public static String getPosterUrl(String posterId, @IMG_SIZES String size) {
+        return IMG_BASE_URL + size + "/" + posterId;
     }
 
     /**

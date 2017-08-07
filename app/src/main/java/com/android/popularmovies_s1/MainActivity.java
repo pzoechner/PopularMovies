@@ -3,20 +3,30 @@ package com.android.popularmovies_s1;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.popularmovies_s1.utils.NetworkUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * @author Philipp Zoechner
+ * @date 07.08.2017
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private GridView gvMovies;
+    private static String TAG = MainActivity.class.getSimpleName();
+
+    private MoviesAdapter mAdapter;
+    private RecyclerView rvMovies;
 
     private ProgressBar pbLoading;
     private TextView tvError;
@@ -26,10 +36,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        gvMovies = (GridView) findViewById(R.id.gv_main_movies);
+        rvMovies = (RecyclerView) findViewById(R.id.rv_main_movies);
 
         pbLoading = (ProgressBar) findViewById(R.id.pb_main_loading);
         tvError = (TextView) findViewById(R.id.tv_main_error_message_display);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        rvMovies.setLayoutManager(layoutManager);
+        rvMovies.setHasFixedSize(true);
+
+        rvMovies.setAdapter(mAdapter);
+
 
         listPopular();
     }
@@ -41,40 +58,45 @@ public class MainActivity extends AppCompatActivity {
 
     private void showMovies() {
         pbLoading.setVisibility(View.INVISIBLE);
-        gvMovies.setVisibility(View.VISIBLE);
+        rvMovies.setVisibility(View.VISIBLE);
     }
 
     private void hideMovies() {
-        gvMovies.setVisibility(View.INVISIBLE);
+        rvMovies.setVisibility(View.INVISIBLE);
         pbLoading.setVisibility(View.VISIBLE);
     }
 
 
-    private class MovieQueryTask extends AsyncTask<String, Void, String> {
+    private class MovieQueryTask extends AsyncTask<String, Void, JSONObject> {
         @Override
         protected void onPreExecute() {
             hideMovies();
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected JSONObject doInBackground(String... params) {
             String type = params[0];
             URL url = NetworkUtils.buildUrl(type);
 
-            String result = null;
+            JSONObject result = new JSONObject();
             try {
-                result = NetworkUtils.getResponseFromHttpUrl(url);
-
-                Log.d("MainActivity-async", result);
-            } catch (IOException e) {
+                result = new JSONObject(NetworkUtils.getResponseFromHttpUrl(url));
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
+
             return result;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            showMovies();
+        protected void onPostExecute(JSONObject result) {
+            try {
+                mAdapter = new MoviesAdapter(result.getJSONArray("results"));
+                rvMovies.setAdapter(mAdapter);
+                showMovies();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
