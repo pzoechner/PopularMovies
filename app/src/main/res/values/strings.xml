@@ -7,5 +7,6 @@
 
     <string name="movie_vote_average" translatable="false">%1$s/10</string>
 
-    <string name="error_message">There has been a problem in retrieving movies</string>
+    <string name="error_message">There has been a problem in retrieving movies. Please check internet
+        connection.</string>
 </resources>

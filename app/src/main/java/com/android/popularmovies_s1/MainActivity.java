@@ -1,6 +1,9 @@
 package com.android.popularmovies_s1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -64,13 +67,19 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Lis
     }
 
     private void showMovies() {
+        tvError.setVisibility(View.INVISIBLE);
         pbLoading.setVisibility(View.INVISIBLE);
         rvMovies.setVisibility(View.VISIBLE);
     }
 
-    private void hideMovies() {
+    private void hideMovies(boolean error) {
         rvMovies.setVisibility(View.INVISIBLE);
         pbLoading.setVisibility(View.VISIBLE);
+
+        if (error) {
+            pbLoading.setVisibility(View.INVISIBLE);
+            tvError.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -111,10 +120,22 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Lis
     }
 
 
+    /**
+     * from: https://stackoverflow.com/a/4009133/1163881
+     *
+     * @return
+     */
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     private class MovieQueryTask extends AsyncTask<String, Void, JSONObject> {
         @Override
         protected void onPreExecute() {
-            hideMovies();
+            hideMovies(false);
         }
 
         @Override
@@ -124,9 +145,14 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Lis
 
             JSONObject result = new JSONObject();
             try {
-                result = new JSONObject(NetworkUtils.getResponseFromHttpUrl(url));
+                if (isOnline()) {
+                    result = new JSONObject(NetworkUtils.getResponseFromHttpUrl(url));
+                } else {
+                    hideMovies(true);
+                }
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
+                hideMovies(true);
             }
 
             return result;
