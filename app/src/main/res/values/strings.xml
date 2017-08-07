@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PopularMovies-S1</string>
+    <string name="error_message">There has been a problem in retrieving movies</string>
+</resources>
