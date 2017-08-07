@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -64,6 +66,29 @@ public class MainActivity extends AppCompatActivity {
     private void hideMovies() {
         rvMovies.setVisibility(View.INVISIBLE);
         pbLoading.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort_popular:
+                new MovieQueryTask().execute(NetworkUtils.POPULAR);
+                return true;
+
+            case R.id.action_sort_top_rated:
+                new MovieQueryTask().execute(NetworkUtils.TOP_RATED);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

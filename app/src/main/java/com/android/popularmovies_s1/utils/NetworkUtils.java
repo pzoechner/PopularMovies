@@ -19,7 +19,7 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    private static String API_KEY = PopularMoviesApplication.getAppContext().getString(R.string.MOVIEDB_API_KEY);
+    private final static String API_KEY = PopularMoviesApplication.getAppContext().getString(R.string.MOVIEDB_API_KEY);
     private final static String BASE_URL = "https://api.themoviedb.org/3/movie/";
     public final static String POPULAR = "popular";
     public final static String TOP_RATED = "top_rated";
