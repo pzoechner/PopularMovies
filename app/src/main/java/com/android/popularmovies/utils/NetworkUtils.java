@@ -69,6 +69,7 @@ public class NetworkUtils {
 
     /**
      * This method returns the entire result from the HTTP response.
+     * from: T02.01-Solution
      *
      * @param url The URL to fetch the HTTP response from.
      * @return The contents of the HTTP response.
