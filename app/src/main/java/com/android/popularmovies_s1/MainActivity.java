@@ -1,5 +1,6 @@
 package com.android.popularmovies_s1;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.android.popularmovies_s1.utils.NetworkUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,7 +25,7 @@ import java.net.URL;
  * @author Philipp Zoechner
  * @date 07.08.2017
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviesAdapter.ListItemClickListener {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar pbLoading;
     private TextView tvError;
+
+    private JSONArray mMovies;
+    public static final String EXTRA_MOVIE_ITEM = "extra_movie_item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +96,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        JSONObject movie;
+        try {
+            movie = (JSONObject) mMovies.get(clickedItemIndex);
+
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra(EXTRA_MOVIE_ITEM, movie.toString());
+            startActivity(intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private class MovieQueryTask extends AsyncTask<String, Void, JSONObject> {
         @Override
@@ -116,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JSONObject result) {
             try {
-                mAdapter = new MoviesAdapter(result.getJSONArray("results"));
+                mMovies = result.getJSONArray("results");
+                mAdapter = new MoviesAdapter(mMovies, MainActivity.this);
                 rvMovies.setAdapter(mAdapter);
                 showMovies();
             } catch (JSONException e) {

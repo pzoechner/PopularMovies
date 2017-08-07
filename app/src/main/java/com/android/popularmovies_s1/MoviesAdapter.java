@@ -21,11 +21,18 @@ class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> 
 
     private static String TAG = MainActivity.class.getSimpleName();
 
+    final private ListItemClickListener mOnClickListener;
+
     private JSONArray mMovieResults;
     private int mNumberOfItems;
 
-    MoviesAdapter(JSONArray results) {
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+
+    MoviesAdapter(JSONArray results, ListItemClickListener listener) {
         mMovieResults = results;
+        mOnClickListener = listener;
         mNumberOfItems = results.length();
     }
 
@@ -49,25 +56,32 @@ class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> 
     }
 
 
-    class MovieViewHolder extends RecyclerView.ViewHolder {
+    class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivPoster;
 
         MovieViewHolder(View itemView) {
             super(itemView);
             ivPoster = itemView.findViewById(R.id.iv_movie_list_poster);
+
+            ivPoster.setOnClickListener(this);
         }
 
         void bind(int listIndex) {
             try {
                 JSONObject item = new JSONObject(String.valueOf(mMovieResults.getJSONObject(listIndex)));
 
-                String posterUrl = NetworkUtils.getPosterUrl(item.getString("poster_path"), NetworkUtils.w342);
+                String posterUrl = NetworkUtils.getPosterUrl(item, NetworkUtils.w342);
                 Picasso.with(itemView.getContext())
                         .load(posterUrl)
                         .into(ivPoster);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        public void onClick(View view) {
+            mOnClickListener.onListItemClick(getAdapterPosition());
         }
     }
 }

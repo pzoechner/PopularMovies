@@ -6,6 +6,9 @@ import android.support.annotation.StringDef;
 import com.android.popularmovies_s1.PopularMoviesApplication;
 import com.android.popularmovies_s1.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -60,8 +63,8 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String getPosterUrl(String posterId, @IMG_SIZES String size) {
-        return IMG_BASE_URL + size + "/" + posterId;
+    public static String getPosterUrl(JSONObject movieObject, @IMG_SIZES String size) throws JSONException {
+        return IMG_BASE_URL + size + "/" + movieObject.getString("poster_path");
     }
 
     /**
