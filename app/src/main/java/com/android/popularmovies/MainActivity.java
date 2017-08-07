@@ -1,4 +1,4 @@
-package com.android.popularmovies_s1;
+package com.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.popularmovies_s1.utils.NetworkUtils;
+import com.android.popularmovies.utils.NetworkUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

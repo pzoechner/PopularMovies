@@ -1,4 +1,4 @@
-package com.android.popularmovies_s1;
+package com.android.popularmovies;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.popularmovies_s1.utils.NetworkUtils;
+import com.android.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;

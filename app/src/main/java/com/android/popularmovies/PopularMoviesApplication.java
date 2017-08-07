@@ -1,4 +1,4 @@
-package com.android.popularmovies_s1;
+package com.android.popularmovies;
 
 import android.app.Application;
 import android.content.Context;

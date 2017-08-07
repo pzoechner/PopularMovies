@@ -1,4 +1,4 @@
-# PopularMovies-S1
+# Popular Movies
 
 ### API key
 

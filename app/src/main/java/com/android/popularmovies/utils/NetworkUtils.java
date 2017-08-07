@@ -1,10 +1,10 @@
-package com.android.popularmovies_s1.utils;
+package com.android.popularmovies.utils;
 
 import android.net.Uri;
 import android.support.annotation.StringDef;
 
-import com.android.popularmovies_s1.PopularMoviesApplication;
-import com.android.popularmovies_s1.R;
+import com.android.popularmovies.PopularMoviesApplication;
+import com.android.popularmovies.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
