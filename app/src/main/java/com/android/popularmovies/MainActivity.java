@@ -122,10 +122,8 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Lis
 
     /**
      * from: https://stackoverflow.com/a/4009133/1163881
-     *
-     * @return
      */
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();

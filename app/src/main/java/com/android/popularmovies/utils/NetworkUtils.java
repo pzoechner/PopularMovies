@@ -29,7 +29,7 @@ public class NetworkUtils {
     private final static String PARAM_API_KEY = "api_key";
 
 
-    public final static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";
+    private final static String IMG_BASE_URL = "http://image.tmdb.org/t/p/";
 
     @StringDef({
             w92, w154, w185, w342, w500, w780, original
