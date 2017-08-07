@@ -2,7 +2,7 @@
     <string name="app_name">PopularMovies-S1</string>
     <string name="label_movie_detail">MovieDetail</string>
 
-    <string name="action_sort_popular">Sort by popular</string>
+    <string name="action_sort_popular">Sort by most popular</string>
     <string name="action_sort_top_rated">Sort by top rated</string>
 
     <string name="movie_vote_average" translatable="false">%1$s/10</string>
